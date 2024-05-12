@@ -1,0 +1,9 @@
+{
+    "build": [
+        { "workDir": "/home/CICD/portfolio/Serveur", "cmd": ["npm i", "npm run build"] },
+        { "workDir": "/home/CICD/portfolio/Client", "cmd": ["npm i", "npm run build"] }
+    ],
+    "mouve": ["cp /home/CICD/portfolio/Client/dist /var/www/portfolio.com", "cp /home/CICD/portfolio/Serveur/dist/* /var/www/api.portfolio.com"],
+    "clearFolder": "/home/CICD/portfolio",
+    "repo": "https://github.com/BeesyOnGit/portfolio.git"
+}
