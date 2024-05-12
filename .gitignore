@@ -11,7 +11,7 @@ node_modules
 Media
 dist
 exec.sh
-index.js
+index3.js
 dist-ssr
 *.local
 
