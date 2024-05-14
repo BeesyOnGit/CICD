@@ -25,12 +25,15 @@ const args = process.argv.slice(2);
                 });
                 console.log(`${getTS()} : version initialized`);
             }
+
             await execute(`git ls-remote ${repo}  main`, async (stdout) => {
                 const currversion = stdout.split("refs")[0].trim();
 
                 if (currversion !== version) {
                     console.log(`${getTS()} : Repo Version Changed Starting Update`);
+
                     const opeartions = await buildAndSetUp();
+
                     if (opeartions) {
                         console.log(`${getTS()} : Updates Finished`);
                         version = currversion;
