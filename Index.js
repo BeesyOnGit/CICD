@@ -131,7 +131,8 @@ const args = process.argv.slice(2);
             const { config } = getObjectFromArgs(args);
             const fileTxt = await readFile(config);
             if (!fileTxt) {
-                return console.log(`${getTS()} : error no config file with this name : ${config}`);
+                console.log(`${getTS()} : error no config file with this name : ${config}`);
+                return;
             }
             return JSON.parse(fileTxt);
         } catch (error) {
