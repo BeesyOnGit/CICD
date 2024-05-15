@@ -30,31 +30,33 @@ const args = process.argv.slice(2);
                 console.log(`${getTS()} : version initialized`);
             }
 
+            if (runingInstance) {
+                console.log(`${getTS()} : CICD Instance already running aborting process`);
+                return;
+            }
+
             await execute(`git ls-remote ${repo}  main`, async (stdout) => {
                 const currversion = stdout.split("refs")[0].trim();
 
                 if (currversion !== version) {
-                    if (runingInstance) {
-                        console.log(`${getTS()} : CICD Instance already running aborting process`);
-                        return;
-                    }
-
                     console.log(`${getTS()} : Repo Version Changed Starting Update`);
 
                     runingInstance = true;
 
                     const operation = await buildAndSetUp();
 
+                    runingInstance = false;
+
                     if (operation) {
                         console.log(`${getTS()} : Updates Finished`);
                         version = currversion;
-                        runingInstance = false;
 
                         if (clearFolder) {
                             await execute(`rm -rf ${clearFolder}`);
                         }
-                        return;
                     }
+                    console.log(`${getTS()} : Updates Failed We Will Try Again :)`);
+                    return;
                 }
                 console.log(`${getTS()} : Checked ${repo} No Updates`);
             });
