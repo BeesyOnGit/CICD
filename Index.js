@@ -45,8 +45,6 @@ const args = process.argv.slice(2);
 
                     const operation = await buildAndSetUp();
 
-                    runingInstance = false;
-
                     if (operation) {
                         console.log(`${getTS()} : Updates Finished`);
                         version = currversion;
@@ -55,6 +53,8 @@ const args = process.argv.slice(2);
                             await execute(`rm -rf ${clearFolder}`);
                         }
                     }
+                    runingInstance = false;
+
                     console.log(`${getTS()} : Updates Failed We Will Try Again :)`);
                     return;
                 }
@@ -178,6 +178,7 @@ const args = process.argv.slice(2);
                         if (clearFolder) {
                             await execute(`rm -rf ${clearFolder}`);
                         }
+                        runingInstance = false;
                         return;
                     }
                     resolve(true);
