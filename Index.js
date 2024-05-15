@@ -11,9 +11,13 @@ const args = process.argv.slice(2);
     console.log(`${getTS()} : Starting CICD`);
 
     let version = "";
+
+    let runingInstance = false;
+
     await execute(`git ls-remote ${repo}  main`, (stdout) => {
         version = stdout.split("refs")[0].trim();
     });
+
     console.log(`${getTS()} : version initialized`);
 
     const job = new CronJob(
@@ -30,17 +34,26 @@ const args = process.argv.slice(2);
                 const currversion = stdout.split("refs")[0].trim();
 
                 if (currversion !== version) {
+                    if (runingInstance) {
+                        console.log(`${getTS()} : CICD Instance already running aborting process`);
+                        return;
+                    }
+
                     console.log(`${getTS()} : Repo Version Changed Starting Update`);
 
-                    const opeartions = await buildAndSetUp();
+                    runingInstance = true;
 
-                    if (opeartions) {
+                    const operation = await buildAndSetUp();
+
+                    if (operation) {
                         console.log(`${getTS()} : Updates Finished`);
                         version = currversion;
+                        runingInstance = false;
 
                         if (clearFolder) {
                             await execute(`rm -rf ${clearFolder}`);
                         }
+                        return;
                     }
                 }
                 console.log(`${getTS()} : Checked ${repo} No Updates`);
