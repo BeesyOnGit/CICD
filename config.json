@@ -10,5 +10,6 @@
         "cp /home/CICD/portfolio/Cdn/dist/* /var/www/cdn.portfolio.com"
     ],
     "clearFolder": "/home/CICD/portfolio",
-    "repo": "https://github.com/BeesyOnGit/portfolio.git"
+    "repo": "https://github.com/BeesyOnGit/portfolio.git",
+    "cron": "*/30 * * * * *"
 }

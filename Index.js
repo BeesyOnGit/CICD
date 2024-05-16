@@ -6,7 +6,7 @@ import process from "process";
 const args = process.argv.slice(2);
 
 (async () => {
-    const { repo, clearFolder } = await getConfigFile();
+    const { repo, clearFolder, cron } = await getConfigFile();
 
     console.log(`${getTS()} : Starting CICD`);
 
@@ -20,8 +20,12 @@ const args = process.argv.slice(2);
 
     console.log(`${getTS()} : version initialized`);
 
+    if (!cron) {
+        console.log(`${getTS()} : Cron expression is REQUIRED Please Provide It`);
+    }
+
     const job = new CronJob(
-        "* * * * *", // cronTime
+        cron, // cronTime
         async function () {
             if (!version) {
                 await execute(`git ls-remote ${repo}  main`, (stdout) => {
