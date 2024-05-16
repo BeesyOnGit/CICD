@@ -31,7 +31,7 @@ const args = process.argv.slice(2);
             }
 
             if (runingInstance) {
-                console.log(`${getTS()} : CICD Instance already running aborting process`);
+                // console.log(`${getTS()} : CICD Instance already running aborting process`);
                 return;
             }
 
